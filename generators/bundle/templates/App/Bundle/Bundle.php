@@ -1,6 +1,6 @@
 <?php
 
-namespace <%= bundle.bundleNamespace %>\App\Bundle;
+namespace <%= bundle.contextNamespace %>\App\Bundle;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
@@ -8,7 +8,7 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 /**
  * Class <%= bundle.bundleName %>Bundle
  *
- * @package <%= bundle.bundleNamespace %>\App\Bundle
+ * @package <%= bundle.contextNamespace %>\App\Bundle
  * @author  <%= root.authorName %> <<%= root.authorEmail %>>
  */
 class <%= bundle.bundleName %>Bundle extends Bundle

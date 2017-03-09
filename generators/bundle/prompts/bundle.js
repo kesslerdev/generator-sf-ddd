@@ -1,20 +1,18 @@
 "use strict";
 
 var _ = require('underscore');
+var _prompts = require('../../../lib/prompts');
 
 module.exports = async (env) => {
     //try for first call determine names
-    let bundleConfig = await env.prompt([{
-        type: 'input',
-        name: 'bundleName',
-        message: 'Name of bundle',
-        store: true
-    }, {
-        type: 'input',
-        name: 'bundleNamespace',
-        message: 'Namespace of bundle',
-        store: true
-    }]);
+    let bundleConfig = await env.prompt(
+        _prompts.context([{
+            type: 'input',
+            name: 'bundleName',
+            message: 'Name of bundle',
+            store: true
+        }])
+    );
 
     let compile = await env.prompt([{
         type: 'confirm',
@@ -23,7 +21,7 @@ module.exports = async (env) => {
         default: false,
         store: true
     }, {
-        when: (props) =>{ return props.hasCompiler},
+        when: (props) => { return props.hasCompiler },
         type: 'input',
         name: 'compilerPassName',
         message: 'Name of Compiler Pass',

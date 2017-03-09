@@ -1,6 +1,6 @@
 <?php
 
-namespace <%= bundle.bundleNamespace %>\App\Bundle\DependencyInjection\Compiler;
+namespace <%= bundle.contextNamespace %>\App\Bundle\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
@@ -9,7 +9,7 @@ use Symfony\Component\DependencyInjection\Reference;
 /**
  * Class <%= bundle.compilerPassName %>Pass
  *
- * @package <%= bundle.bundleNamespace %>\App\Bundle\DependencyInjection\Compiler
+ * @package <%= bundle.contextNamespace %>\App\Bundle\DependencyInjection\Compiler
  * @author  <%= root.authorName %> <<%= root.authorEmail %>>
  */
 class <%= bundle.compilerPassName %>Pass implements CompilerPassInterface
