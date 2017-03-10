@@ -27,7 +27,7 @@ module.exports = async (env) => {
       type: 'list',
       name: 'generator',
       message: 'What you want to generate ?',
-      choices: ['None', 'Bundle', 'Service', 'Entity'],
+      choices: ['None', 'Bundle', 'Service', 'Entity','Exception'],
       filter: function (val) {
         return val.toLowerCase();
       }

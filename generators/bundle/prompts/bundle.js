@@ -10,7 +10,10 @@ module.exports = async (env) => {
             type: 'input',
             name: 'bundleName',
             message: 'Name of bundle',
-            store: true
+            store: true,
+            filter: function (val) {
+                return s.classify(val);
+            }
         }])
     );
 
@@ -26,7 +29,10 @@ module.exports = async (env) => {
         name: 'compilerPassName',
         message: 'Name of Compiler Pass',
         default: 'TaggedServices',
-        store: true
+        store: true,
+        filter: function (val) {
+            return s.classify(val);
+        }
     }]);
 
     return _.extend(bundleConfig, compile);

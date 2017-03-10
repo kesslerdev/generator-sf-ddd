@@ -8,7 +8,10 @@ module.exports = async (env) => {
         _prompts.context([{
             type: 'input',
             name: 'serviceName',
-            message: 'Name of Service'
+            message: 'Name of Service',
+            filter: function (val) {
+                return s.classify(val);
+            }
         }, {
             type: 'list',
             choices: ['None', 'Service', 'Manager', 'Gateway'],
