@@ -1,6 +1,7 @@
 "use strict";
 
 var _ = require('underscore');
+var s = require('underscore.string');
 var _prompts = require('../../../lib/prompts');
 
 module.exports = async (env) => {
@@ -9,7 +10,7 @@ module.exports = async (env) => {
         _prompts.context([{
             type: 'input',
             name: 'bundleName',
-            message: 'Name of bundle',
+            message: 'Name of bundle (Without Bundle)',
             store: true,
             filter: function (val) {
                 return s.classify(val);

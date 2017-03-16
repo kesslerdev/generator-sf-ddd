@@ -1,28 +1,26 @@
 "use strict";
-var xmlmerge = require('xmlmerge-js');
-var s = require('underscore.string');
 
 var BaseGenerator = require('../../lib/generator');
 var mergeServices = require('../../lib/mergeServices');
-var getParentConfig = require('../../lib/parentConfig');
 var containerTags = require('../../lib/containerTags');
 
-var _srvPrompts = require('./prompts/service');
+var _srvPrompts = require('./prompts');
 
 module.exports = class extends BaseGenerator {
+  constructor(args, opts) {
+    super(args, opts);
+
+    this.promptService = new _srvPrompts(this);
+  }
+
+
   prompting() {
-
     this._config = {};
-    let that = this;
 
-    return _srvPrompts(that).then((answers) => {
-      this._config.service = answers;
+    return this.promptService.doPrompt(true).then((conf) => {
+      this._config.service = conf;
       this._config.service.serviceFullName = this._config.service.serviceName + this._config.service.serviceSuffix;
-      return getParentConfig().then((conf) => {
-        this._config.root = conf;
-      });
     });
-
   }
 
   writing() {
@@ -32,7 +30,7 @@ module.exports = class extends BaseGenerator {
       this.destinationPath('App/Service/' + this._config.service.serviceFullName + '.php'),
       {
         service: this._config.service,
-        root: this._config.root
+        root: this._config.service.root
       }
     );
 
@@ -43,8 +41,8 @@ module.exports = class extends BaseGenerator {
     mergeServices(this, serviceConfig, [
       {
         id: tags.serviceTag(this._config.service.serviceName, this._config.service.serviceSuffix),
-        class: this._config.service.contextNamespace +"\\App\\Service\\"+this._config.service.serviceFullName,
-        args:[
+        class: this._config.service.contextNamespace + "\\App\\Service\\" + this._config.service.serviceFullName,
+        args: [
           {
             type: "service",
             id: "..."
@@ -53,7 +51,7 @@ module.exports = class extends BaseGenerator {
             __raw: "%xeonys.crm.import_root_dir%"
           }
         ],
-        tags:[
+        tags: [
           {
             name: "rezzza_command_bus.command_handler",
             comand: this._config.service.contextNamespace + '\\App\\Command\\',

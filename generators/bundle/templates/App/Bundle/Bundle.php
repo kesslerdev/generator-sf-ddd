@@ -2,8 +2,8 @@
 
 namespace <%= bundle.contextNamespace %>\App\Bundle;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\HttpKernel\Bundle\Bundle;
+<% if (bundle.hasCompiler) { %>use Symfony\Component\DependencyInjection\ContainerBuilder;
+<% } %>use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
  * Class <%= bundle.bundleName %>Bundle

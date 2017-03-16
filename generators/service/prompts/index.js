@@ -1,11 +1,12 @@
 "use strict";
 
 var _prompts = require('../../../lib/prompts');
+var Prompting = require('../../../lib/prompting');
+var s = require('underscore.string');
 
-module.exports = async (env) => {
-    //try for first call determine names
-    let bundleConfig = await env.prompt(
-        _prompts.context([{
+module.exports = class ServicePrompts extends Prompting {
+    getPrompts() {
+        return _prompts.context([{
             type: 'input',
             name: 'serviceName',
             message: 'Name of Service',
@@ -20,10 +21,6 @@ module.exports = async (env) => {
             },
             name: 'serviceSuffix',
             message: 'Service type'
-        }])
-    );
-
-    //second configure service options
-
-    return bundleConfig;
-};
+        }]);
+    }
+}

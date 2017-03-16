@@ -1,6 +1,7 @@
 "use strict";
 
 var path = require('path');
+var s = require('underscore.string');
 
 module.exports = async (env) => {
   //answer base informations
@@ -9,10 +10,11 @@ module.exports = async (env) => {
   let yorc = env._config.ctxDir + '/.yo-rc.json';
   //if yorc dont exists
   if (!env.fs.exists(yorc)) {
+    let ctxPath = path.relative(env._config.project.srcDir, env._config.ctxDir);
     env.fs.write(yorc, JSON.stringify({
       "generator-sf-ddd": {
         promptValues: {
-          contextNamespace: env._config.project.baseNamespace + "\\" + path.basename(env._config.ctxDir),
+          contextNamespace: env._config.project.baseNamespace + "\\" + ctxPath.replace(path.sep, "\\"),
         }
       }
     }));

@@ -8,6 +8,7 @@ module.exports = async (env) => {
     let configure = true;
     let hasConfig = config != undefined;
 
+    config = config != undefined ? config : {};
     if (hasConfig) {
         configure = await env.prompt([{
             type: 'confirm',
@@ -21,6 +22,11 @@ module.exports = async (env) => {
             message: 'Would you like to change author configuration ?',
             default: false
         }]);
+    } else {
+        configure = {
+            reConfigurate: true,
+            reAuthor: true
+        };
     }
 
     if (configure.reConfigurate) {
