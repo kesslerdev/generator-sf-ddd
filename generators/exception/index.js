@@ -1,22 +1,23 @@
 "use strict";
 
 var BaseGenerator = require('../../lib/generator');
-var getParentConfig = require('../../lib/parentConfig');
 
 var _prompts = require('./prompts');
 var _ = require('underscore');
 
 module.exports = class extends BaseGenerator {
+  constructor(args, opts) {
+    super(args, opts);
+
+    this.promptService = new _prompts(this);
+  }
   prompting() {
 
     this._config = {};
     let that = this;
 
-    return _prompts(that).then((answers) => {
+    return this.promptService.doPrompt(true).then((answers) => {
       this._config.exception = answers;
-      return getParentConfig().then((conf) => {
-        this._config.root = conf;
-      });
     });
 
   }
@@ -35,7 +36,7 @@ module.exports = class extends BaseGenerator {
       this.destinationPath('Domain/Exception/' + this._config.exception.exceptionName + 'Exception.php'),
       {
         exception: this._config.exception,
-        root: this._config.root,
+        root: this._config.exception.root,
         baseException: baseException,
         baseNameException: baseNameException
       }
