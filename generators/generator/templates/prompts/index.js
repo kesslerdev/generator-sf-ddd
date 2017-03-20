@@ -15,4 +15,13 @@ module.exports = class Prompts extends Prompting {
             }
         }]);
     }
+
+    getGeneratorOptions() {
+        return [
+            {
+                key: 'optKey',
+                name: 'option Name'
+            }
+        ];
+    }
 }
