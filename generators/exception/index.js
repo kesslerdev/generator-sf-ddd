@@ -36,6 +36,7 @@ module.exports = class extends BaseGenerator {
       this.destinationPath('Domain/Exception/' + this._config.exception.exceptionName + 'Exception.php'),
       {
         exception: this._config.exception,
+        buildOpts: this._config.exception.generatorOptions,
         root: this._config.exception.root,
         baseException: baseException,
         baseNameException: baseNameException

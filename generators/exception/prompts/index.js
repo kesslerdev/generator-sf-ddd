@@ -3,6 +3,7 @@
 var _prompts = require('../../../lib/prompts');
 var Prompting = require('../../../lib/prompting');
 var s = require('underscore.string');
+var inquirer = require('inquirer');
 
 module.exports = class ServicePrompts extends Prompting {
     getPrompts() {
@@ -26,6 +27,16 @@ module.exports = class ServicePrompts extends Prompting {
             },
             name: 'exceptionType',
             message: 'Exception Type'
-        }]);
+        }
+        ]);
+    }
+
+    getGeneratorOptions() {
+        return [
+            {
+                key: 'sprintf',
+                name: 'sprintf based message'
+            }
+        ];
     }
 }

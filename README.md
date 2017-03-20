@@ -1,4 +1,5 @@
-# Yeaoman Generator sf-ddd
+# Yeoman Generator sf-ddd
+
 Yeoman Generators for ddd sf app with CQRS/EventSourcing
 
 ## TODO

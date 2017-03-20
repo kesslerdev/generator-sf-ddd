@@ -11,5 +11,14 @@ use <%= baseException %>;
  * @author  <%= root.authorName %> <<%= root.authorEmail %>>
  */
 class <%= exception.exceptionName %>Exception extends <%= baseNameException %>
-{
+{<% if (buildOpts.sprintf) { %>
+    /**
+     * <%= exception.exceptionName %>Exception constructor.
+     *
+     * @param string $value
+     */
+    public function __construct($value)
+    {
+        parent::__construct(sprintf('message %s', $value));
+    }<% } %>
 }
