@@ -16,7 +16,7 @@ module.exports = class extends BaseGenerator {
     this._config = {};
     let that = this;
 
-    return this.promptService.doPrompt(true).then((answers) => {
+    return this.promptService.doPrompt(true, true).then((answers) => {
       this._config.exception = answers;
     });
 
