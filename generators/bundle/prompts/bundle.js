@@ -5,7 +5,14 @@ var s = require('underscore.string');
 var _prompts = require('../../../lib/prompts');
 
 module.exports = async (env) => {
-    //try for first call determine names
+    let conf = env.config.get('promptValues');
+
+    //try on first call determine names
+    if (conf.bundleName == undefined) {
+        env.config.set('promptValues',_.extend(conf, {
+            bundleName: _.rest(conf.contextNamespace.split("\\"), 1).join('')
+        }));
+    }
     let bundleConfig = await env.prompt(
         _prompts.context([{
             type: 'input',

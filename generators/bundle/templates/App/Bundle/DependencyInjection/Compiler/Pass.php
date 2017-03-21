@@ -21,7 +21,7 @@ class <%= bundle.compilerPassName %>Pass implements CompilerPassInterface
     {
         //extended service
         $service = $container->findDefinition('...');
-        
+
         //find services with tag
         $taggedServices = $container->findTaggedServiceIds('...');
 
@@ -42,7 +42,7 @@ class <%= bundle.compilerPassName %>Pass implements CompilerPassInterface
         foreach ($taggedServices as $id => $tags) {
             $refServices[] = new Reference($id);
         }
-        
+
         //set tagged services as first argument
         $service->replaceArgument(0, $refServices);
     }
