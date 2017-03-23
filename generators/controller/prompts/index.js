@@ -8,8 +8,8 @@ module.exports = class Prompts extends Prompting {
     getPrompts() {
         return _prompts.context([{
             type: 'input',
-            name: '<%= generatorName %>Name',
-            message: 'Name of <%= ucGeneratorName %>',
+            name: 'controllerName',
+            message: 'Name of Controller',
             filter: function (val) {
                 return s.classify(val);
             }

@@ -16,7 +16,7 @@ module.exports = class extends BaseGenerator {
     this._config = {};
 
     return this._prompt.doPrompt(true).then((conf) => {
-      this._config.<%= generatorName %> = conf;
+      this._config.controller = conf;
       //another params ...
     });
   }
@@ -24,11 +24,11 @@ module.exports = class extends BaseGenerator {
   writing() {
     //make files
     this.fs.copyTpl(
-      this.templatePath('<%= ucGeneratorName %>.php'),
+      this.templatePath('Controller.php'),
       this.destinationPath(this._config.name + '.php'),
       {
-        <%= generatorName %>: this._config.<%= generatorName %>,
-        root: this._config.<%= generatorName %>.root
+        controller: this._config.controller,
+        root: this._config.controller.root
       }
     );
   }

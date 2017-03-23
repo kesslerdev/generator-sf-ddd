@@ -8,8 +8,8 @@ module.exports = class Prompts extends Prompting {
     getPrompts() {
         return _prompts.context([{
             type: 'input',
-            name: '<%= generatorName %>Name',
-            message: 'Name of <%= ucGeneratorName %>',
+            name: 'normalizerName',
+            message: 'Name of normalizer',
             filter: function (val) {
                 return s.classify(val);
             }
@@ -19,8 +19,8 @@ module.exports = class Prompts extends Prompting {
     getGeneratorOptions() {
         return [
             {
-                key: 'optKey',
-                name: 'option Name'
+                key: 'normalizerAware',
+                name: 'Can use Normalizer inside this (sub normalizers)'
             }
         ];
     }
