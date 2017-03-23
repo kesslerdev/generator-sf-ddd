@@ -1,11 +1,11 @@
 <?php
 
-namespace <%= service.contextNamespace %>\App\Service;
+namespace <%= service.contextNamespace %>\<%= baseNamespace %>;
 
 /**
  * Class <%= service.serviceFullName %>
  *
- * @package <%= service.contextNamespace %>\App\Service
+ * @package <%= service.contextNamespace %>\<%= baseNamespace %>
  * @author  <%= root.authorName %> <<%= root.authorEmail %>>
  */
 class <%= service.serviceFullName %>

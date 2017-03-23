@@ -5,6 +5,8 @@ var mergeServices = require('../../lib/mergeServices');
 var containerTags = require('../../lib/containerTags');
 
 var _srvPrompts = require('./prompts');
+var path = require('path');
+var s = require('underscore.string');
 
 module.exports = class extends BaseGenerator {
   constructor(args, opts) {
@@ -24,24 +26,27 @@ module.exports = class extends BaseGenerator {
   }
 
   writing() {
+    let destinationBasePath = this._config.service.customOutput;
+    let destinationBasedNamespace = path.relative(this.destinationPath(), destinationBasePath).replace(path.sep, '\\');
     //service file
     this.fs.copyTpl(
       this.templatePath('App/Service/Service.php'),
-      this.destinationPath('App/Service/' + this._config.service.serviceFullName + '.php'),
+      this.destinationPath(destinationBasePath + '/' + this._config.service.serviceFullName + '.php'),
       {
         service: this._config.service,
-        root: this._config.service.root
+        root: this._config.service.root,
+        baseNamespace: destinationBasedNamespace
       }
     );
 
     let tags = new containerTags(this._config.service.contextNamespace);
     //service configuration
-    let serviceConfig = this.destinationPath('App/Bundle/Resources/config/services/services.xml');
+    let serviceConfig = this.destinationPath('App/Bundle/Resources/config/services/'+ this._config.service.serviceXMLFile);
 
     mergeServices(this, serviceConfig, [
       {
         id: tags.serviceTag(this._config.service.serviceName, this._config.service.serviceSuffix),
-        class: this._config.service.contextNamespace + "\\App\\Service\\" + this._config.service.serviceFullName,
+        class: this._config.service.contextNamespace + "\\" + destinationBasedNamespace + "\\" + this._config.service.serviceFullName,
         args: [
           {
             type: "service",
