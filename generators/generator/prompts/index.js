@@ -1,12 +1,14 @@
 "use strict";
 
-module.exports = async (env) => {
-    let config = await env.prompt(
-        [{
+var Prompting = require('../../../lib/prompting');
+var s = require('underscore.string');
+
+module.exports = class Prompts extends Prompting {
+    getPrompts() {
+        return [{
             type: 'input',
-            name: 'generator',
+            name: 'generatorName',
             message: 'Generator Name'
-        }]
-    );
-    return config;
-};
+        }];
+    }
+}

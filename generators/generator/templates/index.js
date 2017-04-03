@@ -25,7 +25,7 @@ module.exports = class extends BaseGenerator {
     //make files
     this.fs.copyTpl(
       this.templatePath('<%= ucGeneratorName %>.php'),
-      this.destinationPath(this._config.name + '.php'),
+      this.destinationPath(this._config.<%= generatorName %>.<%= generatorName %>Name + '.php'),
       {
         <%= generatorName %>: this._config.<%= generatorName %>,
         root: this._config.<%= generatorName %>.root

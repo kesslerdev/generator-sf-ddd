@@ -1,13 +1,15 @@
 <?php
 
-namespace <%= controller.contextNamespace %>\App\XXX;
+namespace <%= controller.contextNamespace %>\UI\Controller;
 
 /**
- * Class <%= controller.controllerName %>
+ * Class <%= controller.controllerName %>Controller
  *
- * @package <%= controller.contextNamespace %>\App\XXX
+ * @package <%= controller.contextNamespace %>\UI\Controller
  * @author  <%= root.authorName %> <<%= root.authorEmail %>>
  */
-class <%= controller.controllerName %>
-{
+class <%= controller.controllerName %>Controller
+{<% if (xxx.yyy) { %>
+    //options usage
+<% } %>
 }

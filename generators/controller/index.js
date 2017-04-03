@@ -25,7 +25,7 @@ module.exports = class extends BaseGenerator {
     //make files
     this.fs.copyTpl(
       this.templatePath('Controller.php'),
-      this.destinationPath(this._config.name + '.php'),
+      this.destinationPath('UI/Controller/' + this._config.controller.controllerName + 'Controller.php'),
       {
         controller: this._config.controller,
         root: this._config.controller.root

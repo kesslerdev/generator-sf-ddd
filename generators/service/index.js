@@ -59,8 +59,8 @@ module.exports = class extends BaseGenerator {
         tags: [
           {
             name: "rezzza_command_bus.command_handler",
-            comand: this._config.service.contextNamespace + '\\App\\Command\\',
-            method: "..."
+            command: this._config.service.contextNamespace + '\\App\\Command\\',
+            method: "handleXXX"
           }
         ]
       }
