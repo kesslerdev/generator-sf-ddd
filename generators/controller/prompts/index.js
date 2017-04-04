@@ -13,9 +13,22 @@ module.exports = class Prompts extends Prompting {
             filter: function (val) {
                 return s.classify(val);
             }
+        }, {
+            type: 'list',
+            choices: ['UI/Controller', 'Other'],
+            name: 'customOutput',
+            message: 'Controller folder'
+        }, {
+            when: function (answers) {
+                return answers.customOutput === 'Other';
+            },
+            type: 'directory',
+            name: 'customOutput',
+            message: 'directory to save controller',
+            basePath: './'
         }]);
     }
-
+/*
     getGeneratorOptions() {
         return [
             {
@@ -24,4 +37,5 @@ module.exports = class Prompts extends Prompting {
             }
         ];
     }
+*/
 }

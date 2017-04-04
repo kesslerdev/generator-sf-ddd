@@ -13,6 +13,4 @@ Yeoman Generators for ddd sf app with CQRS/EventSourcing
 
 ### New Options for g²
 
-- [ ] Suffix (for generate the generator for *Controller)
-- [ ] Set default Namespace (ex for Normalizer generator => UI/RESTDTO/...)
-- [ ] can final user can change Folder (& gen namespaces) (ex for service genrator => UI/RESTDTO/...)
+- [x] Done

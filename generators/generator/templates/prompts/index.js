@@ -13,9 +13,22 @@ module.exports = class Prompts extends Prompting {
             filter: function (val) {
                 return s.classify(val);
             }
-        }]);
+        }<% if (buildOpts.canChangeDir) { %>, {
+            type: 'list',
+            choices: ['<%= generatorDir %>', 'Other'],
+            name: 'customOutput',
+            message: '<%= ucGeneratorName %> folder'
+        }, {
+            when: function (answers) {
+                return answers.customOutput === 'Other';
+            },
+            type: 'directory',
+            name: 'customOutput',
+            message: 'directory to save <%= generatorName %>',
+            basePath: './'
+        }<% } %>]);
     }
-
+/*
     getGeneratorOptions() {
         return [
             {
@@ -24,4 +37,5 @@ module.exports = class Prompts extends Prompting {
             }
         ];
     }
+*/
 }

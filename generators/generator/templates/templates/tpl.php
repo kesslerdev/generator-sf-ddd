@@ -1,14 +1,15 @@
 <?php
 
-namespace <%= <$= generatorName $>.contextNamespace %>\App\XXX;
+namespace <%= <$= generatorName $>.contextNamespace %>\<$ if (buildOpts.canChangeDir) { $><%= baseNamespace %><$ } else{ $><$= generatorNamespace $><$ } $>;
 
 /**
- * Class <%= <$= generatorName $>.<$= generatorName $>Name %>
+ * Class <%= <$= generatorName $>.<$= generatorName $>Name %><$= generatorSuffix $>
  *
- * @package <%= <$= generatorName $>.contextNamespace %>\App\XXX
- * @author  <%= root.authorName %> <<%= root.authorEmail %>>
+ * @package <%= <$= generatorName $>.contextNamespace %>\<$ if (buildOpts.canChangeDir) { $><%= baseNamespace %><$ } else{ $><$= generatorNamespace $><$ } $>
+ * @author  <%= root.authorName %> <%= root.authorEmail %>
  */
-class <%= <$= generatorName $>.<$= generatorName $>Name %>
+class <%= <$= generatorName $>.<$= generatorName $>Name %><$= generatorSuffix $>
+// @see <https://github.com/mde/ejs/blob/master/docs/syntax.md>
 {<% if (xxx.yyy) { %>
     //options usage
 <% } %>

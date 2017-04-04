@@ -1,5 +1,5 @@
 "use strict";
-
+<% if (buildOpts.canChangeDir) { %>var path = require('path');<% } %>
 var BaseGenerator = require('../../lib/generator');
 
 var Prompts = require('./prompts');
@@ -22,13 +22,16 @@ module.exports = class extends BaseGenerator {
   }
 
   writing() {
-    //make files
+    <% if (buildOpts.canChangeDir) { %>let destinationBasePath = this._config.<%= generatorName %>.customOutput;
+    let destinationBasedNamespace = path.relative(this.destinationPath(), destinationBasePath).replace(path.sep, '\\');
+    <% } %>//make files
     this.fs.copyTpl(
       this.templatePath('<%= ucGeneratorName %>.php'),
-      this.destinationPath(this._config.<%= generatorName %>.<%= generatorName %>Name + '.php'),
+      this.destinationPath(<% if (buildOpts.canChangeDir) { %>destinationBasePath<% } else { %>'<%= generatorDir %>'<% } %> + '/' + this._config.<%= generatorName %>.<%= generatorName %>Name + '<%= generatorSuffix %>.php'),
       {
         <%= generatorName %>: this._config.<%= generatorName %>,
-        root: this._config.<%= generatorName %>.root
+        root: this._config.<%= generatorName %>.root<% if (buildOpts.canChangeDir) { %>,
+        baseNamespace: destinationBasedNamespace<% } %>
       }
     );
   }

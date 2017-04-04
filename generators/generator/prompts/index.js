@@ -9,6 +9,24 @@ module.exports = class Prompts extends Prompting {
             type: 'input',
             name: 'generatorName',
             message: 'Generator Name'
+        }, {
+            type: 'input',
+            default: 'App/Service',
+            name: 'customOutput',
+            message: 'Output Directory'
+        }, {
+            type: 'input',
+            name: 'suffix',
+            message: 'Suffix (ex: xxx{Controller}) enter for no suffix'
         }];
+    }
+
+    getGeneratorOptions() {
+        return [
+            {
+                key: 'canChangeDir',
+                name: 'the final user can change the output directory'
+            }
+        ];
     }
 }

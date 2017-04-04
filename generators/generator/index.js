@@ -4,6 +4,7 @@ var BaseGenerator = require('../../lib/generator');
 var Prompts = require('./prompts');
 
 var _prompts = require('./prompts');
+var path = require('path');
 var _ = require('underscore');
 var s = require('underscore.string');
 
@@ -18,7 +19,7 @@ module.exports = class extends BaseGenerator {
 
     this._config = {};
 
-    return this._prompt.doPrompt().then((conf) => {
+    return this._prompt.doPrompt(false,true).then((conf) => {
       this._config.generator = conf;
     });
 
@@ -30,7 +31,10 @@ module.exports = class extends BaseGenerator {
       this.destinationPath('generators/'+this._config.generator.generatorName +'/index.js'),
       {
         generatorName: this._config.generator.generatorName,
-        ucGeneratorName: s.classify(this._config.generator.generatorName)
+        ucGeneratorName: s.classify(this._config.generator.generatorName),
+        generatorSuffix: s.capitalize(this._config.generator.suffix),
+        buildOpts: this._config.generator.generatorOptions,
+        generatorDir: this._config.generator.customOutput
       }
     );
     this.fs.copyTpl(
@@ -38,15 +42,20 @@ module.exports = class extends BaseGenerator {
       this.destinationPath('generators/'+this._config.generator.generatorName +'/prompts/index.js'),
       {
         generatorName: this._config.generator.generatorName,
-        ucGeneratorName: s.classify(this._config.generator.generatorName)
+        ucGeneratorName: s.classify(this._config.generator.generatorName),
+        buildOpts: this._config.generator.generatorOptions,
+        generatorDir: this._config.generator.customOutput
       }
     );
     this.fs.copyTpl(
       this.templatePath('templates/tpl.php'),
-      this.destinationPath('generators/'+this._config.generator.generatorName +'/templates/'+s.classify(this._config.generator.generatorName)+'.php'),
+      this.destinationPath('generators/' + this._config.generator.generatorName +'/templates/'+s.classify(this._config.generator.generatorName)+'.php'),
       {
         generatorName: this._config.generator.generatorName,
-        ucGeneratorName: s.classify(this._config.generator.generatorName)
+        ucGeneratorName: s.classify(this._config.generator.generatorName),
+        generatorSuffix: s.capitalize(this._config.generator.suffix),
+        buildOpts: this._config.generator.generatorOptions,
+        generatorNamespace: this._config.generator.customOutput.replace(path.sep, '\\')
       },
       {delimiter: '$'}
     );
