@@ -9,8 +9,9 @@ namespace <%= <$= generatorName $>.contextNamespace %>\<$ if (buildOpts.canChang
  * @author  <%= root.authorName %> <<%= root.authorEmail %>>
  */
 class <%= <$= generatorName $>.<$= generatorName $>Name %><$ if (buildOpts.hasSuffix) { $><%= <$= generatorName $>.<$= generatorName $>Suffix %><$ } $><$= generatorSuffix $>
+{
 // @see <https://github.com/mde/ejs/blob/master/docs/syntax.md>
-{<% if (xxx.yyy) { %>
+<% if (xxx.yyy) { %>
     //options usage
 <% } %>
 }
