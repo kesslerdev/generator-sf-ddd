@@ -13,4 +13,4 @@ Yeoman Generators for ddd sf app with CQRS/EventSourcing
 
 ### New Options for g²
 
-- [x] Done
+- [ ] to test - new option to generate the code for generating service.xml file

@@ -17,7 +17,7 @@ module.exports = class Prompts extends Prompting {
         }, {
             type: 'input',
             name: 'suffix',
-            message: 'Suffix (ex: xxx{Controller}) enter for no suffix'
+            message: 'Fixed suffix (ex: xxx{Controller}) enter for no suffix'
         }];
     }
 
@@ -26,6 +26,14 @@ module.exports = class Prompts extends Prompting {
             {
                 key: 'canChangeDir',
                 name: 'the final user can change the output directory'
+            },
+            {
+                key: 'hasSuffix',
+                name: 'the final user can set an predifined suffix'
+            },
+            {
+                key: 'hasConfigFile',
+                name: 'has to generate a config.xml'
             }
         ];
     }

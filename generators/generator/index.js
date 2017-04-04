@@ -34,7 +34,8 @@ module.exports = class extends BaseGenerator {
         ucGeneratorName: s.classify(this._config.generator.generatorName),
         generatorSuffix: s.capitalize(this._config.generator.suffix),
         buildOpts: this._config.generator.generatorOptions,
-        generatorDir: this._config.generator.customOutput
+        generatorDir: this._config.generator.customOutput,
+        generatorNamespace: this._config.generator.customOutput.replace(path.sep, '\\')
       }
     );
     this.fs.copyTpl(

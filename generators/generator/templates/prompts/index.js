@@ -13,7 +13,25 @@ module.exports = class Prompts extends Prompting {
             filter: function (val) {
                 return s.classify(val);
             }
-        }<% if (buildOpts.canChangeDir) { %>, {
+        }<% if (buildOpts.hasSuffix) { %>, {
+            type: 'list',
+            choices: ['None', 'Xxx', 'Other'],
+            filter: function (val) {
+                return val == 'None' ? '' : val;
+            },
+            name: '<%= generatorName %>Suffix',
+            message: '<%= ucGeneratorName %> type'
+        }, {
+            when: function (answers) {
+                return answers.<%= generatorName %>Suffix === 'Other';
+            },
+            type: 'input',
+            name: '<%= generatorName %>Suffix',
+            message: '<%= ucGeneratorName %> type custom name',
+            filter: function (val) {
+                return s.classify(val);
+            }
+        }<% } %><% if (buildOpts.canChangeDir) { %>, {
             type: 'list',
             choices: ['<%= generatorDir %>', 'Other'],
             name: 'customOutput',
