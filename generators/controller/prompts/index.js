@@ -26,7 +26,9 @@ module.exports = class Prompts extends Prompting {
             name: 'customOutput',
             message: 'directory to save controller',
             basePath: './'
-        }]);
+        }, 
+        _prompts.getCRUD()
+        ]);
     }
 /*
     getGeneratorOptions() {

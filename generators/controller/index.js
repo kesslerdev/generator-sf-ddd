@@ -23,6 +23,7 @@ module.exports = class extends BaseGenerator {
   }
 
   writing() {
+    console.log(this._config.controller.crudTypes);
     let destinationBasePath = this._config.controller.customOutput;
     this._config.destinationBasedNamespace = path.relative(this.destinationPath(), destinationBasePath).replace(path.sep, '\\');
     //make files
@@ -38,10 +39,11 @@ module.exports = class extends BaseGenerator {
   }
 
   end() {
-    this.log('you can add this new controller in routing: ');
-    this.log(s.underscored(this._config.controller.controllerName) + `_api:
+    this.logger.snippet('you can add this new controller in routing:',
+      s.underscored(this._config.controller.controllerName) + `_api:
     prefix:   /api
     resource: ` + this._config.controller.contextNamespace + "\\" + this._config.destinationBasedNamespace + "\\" + this._config.controller.controllerName + `Controller
-    type:     annotation`);
+    type:     annotation`
+    )
   }
 };

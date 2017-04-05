@@ -12,7 +12,7 @@ module.exports = async (env, path) => {
 
     if (create.genBoundedContext) {
         //create bounded
-        console.log('UNIMPLEMENTED');
+        env.logger.error('UNIMPLEMENTED')
         process.exit();
         
     } else {

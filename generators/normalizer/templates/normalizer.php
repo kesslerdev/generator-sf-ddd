@@ -39,7 +39,7 @@ class <%= normalizer.normalizerName %>Normalizer implements NormalizerInterface<
         $payload = [
             'id'  => (int) $object->getId(),
             'xxx' => $object->getXxx(),<% if (buildOpts.normalizerAware) { %>
-            'date' => $this->normalizeDate($object->getCreatedAt(), $format, $context)<% } %>
+            'date' => $this->normalizeDate($object->getCreatedAt(), $format, $context),<% } %>
         ];
 <% if (buildOpts.normalizerAware) { %>
         //normalize a sub object
