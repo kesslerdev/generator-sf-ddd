@@ -1,7 +1,9 @@
 "use strict";
 var path = require('path');
 var s = require('underscore.string');
+var pl = require('pluralize');
 var BaseGenerator = require('../../lib/generator');
+var containerTags = require('../../lib/containerTags');
 
 var Prompts = require('./prompts');
 
@@ -23,7 +25,9 @@ module.exports = class extends BaseGenerator {
   }
 
   writing() {
-    console.log(this._config.controller.crudTypes);
+    console.log(this._config.controller);
+    let tags = new containerTags(this._config.controller.contextNamespace);
+
     let destinationBasePath = this._config.controller.customOutput;
     this._config.destinationBasedNamespace = path.relative(this.destinationPath(), destinationBasePath).replace(path.sep, '\\');
     //make files
@@ -33,7 +37,10 @@ module.exports = class extends BaseGenerator {
       {
         controller: this._config.controller,
         root: this._config.controller.root,
-        baseNamespace: this._config.destinationBasedNamespace
+        baseNamespace: this._config.destinationBasedNamespace,
+        repository: tags.serviceTag(this._config.controller.controllerName,'repository'),
+        pluralize: pl,
+        str: s
       }
     );
   }

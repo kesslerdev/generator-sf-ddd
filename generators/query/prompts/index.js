@@ -9,7 +9,7 @@ module.exports = class Prompts extends Prompting {
         return _prompts.context([{
             type: 'input',
             name: 'queryName',
-            message: 'Name of Query',
+            message: 'Name of Query (ex: {name}ListQuery)',
             filter: function (val) {
                 return s.classify(val);
             }

@@ -9,7 +9,7 @@ module.exports = class Prompts extends Prompting {
         return _prompts.context([{
             type: 'input',
             name: 'controllerName',
-            message: 'Name of Controller',
+            message: 'Name of Controller (ex: {name}Controller)',
             filter: function (val) {
                 return s.classify(val);
             }

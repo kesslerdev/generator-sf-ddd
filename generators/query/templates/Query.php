@@ -2,7 +2,8 @@
 
 namespace <%= query.contextNamespace %>\App\Query;
 
-use Symfony\Component\HttpFoundation\Request;<% if (query.generatorOptions.hasPagination) { %>
+use Symfony\Component\HttpFoundation\Request;<% if (query.generatorOptions.hasQuery) { %> 
+use Xeonys\CRM\Kernel\App\Query\QueryableQueryInterface;<% } %><% if (query.generatorOptions.hasPagination) { %>
 use Xeonys\CRM\Kernel\Domain\Exception\InvalidQueryParameterException;
 <% } %>
 /**
@@ -11,7 +12,7 @@ use Xeonys\CRM\Kernel\Domain\Exception\InvalidQueryParameterException;
  * @package <%= query.contextNamespace %>\App\Query
  * @author  <%= root.authorName %> <<%= root.authorEmail %>>
  */
-class <%= query.queryName %><%= query.querySuffix %>Query
+class <%= query.queryName %><%= query.querySuffix %>Query<% if (query.generatorOptions.hasQuery) { %> implements QueryableQueryInterface<% } %>
 {
     <% if (query.generatorOptions.hasQuery) { %>private $query;
     <% } %><% if (query.generatorOptions.hasPagination) { %>private $page;
@@ -67,6 +68,14 @@ class <%= query.queryName %><%= query.querySuffix %>Query
     public function getQuery()
     {
         return $this->query;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getKeywords()
+    {
+        return explode(' ', $this->getQuery());
     }
 <% } %>
     /**

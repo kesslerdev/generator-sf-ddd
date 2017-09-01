@@ -9,7 +9,7 @@ module.exports = class ServicePrompts extends Prompting {
         return _prompts.context([{
             type: 'input',
             name: 'serviceName',
-            message: 'Name of Service',
+            message: 'Name of Service (ex: {name}Service)',
             filter: function (val) {
                 return s.classify(val);
             }

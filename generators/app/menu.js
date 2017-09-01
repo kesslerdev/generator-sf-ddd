@@ -30,9 +30,12 @@ module.exports = async (env) => {
       type: 'list',
       name: 'generator',
       message: 'What you want to generate ?',
-      choices: ['None', 'Bundle', 'Service', 'Entity','Exception','Normalizer', 'Controller', 'Query'],
+      choices: [
+        'None', 'Bundle', 'Service', 'Entity','Exception','Normalizer', 'Controller', 'Query',
+        'CQRS Command', 'CQRS Form Type'
+      ],
       filter: function (val) {
-        return val.toLowerCase();
+        return s.slugify(val)
       }
     }]);
 
