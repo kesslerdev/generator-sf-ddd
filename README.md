@@ -27,11 +27,15 @@ Yeoman Generators for ddd sf app with CQRS/EventSourcing
 
 #### Query Generator
 
-- [ ] utiliser le bon namespace dans le generateur de Query
+- [x] utiliser le bon namespace dans le generateur de Query
 
 #### Controller Generator
 
 - [x] implementer basiquement les actions CRUD dans le générateur de controller
+
+#### Service Generator
+
+- [ ] checker dans le services.xml si le service est déja defini si c'est le cas => abort / override
 
 #### Entity Generator
 

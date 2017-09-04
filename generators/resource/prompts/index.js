@@ -19,7 +19,7 @@ module.exports = class Prompts extends Prompting {
             type: 'checkbox',
             message: 'Select Things',
             name: 'things',
-            default: ['CONTROLLER', 'QUERY'],
+            default: ['CONTROLLER', 'QUERY', 'REPOSITORY', 'CQRS_COMMANDS', 'CQRS_FORMS', 'ENTITY', 'SERVICE'],
             choices: [
                 {
                     name: 'CONTROLLER'

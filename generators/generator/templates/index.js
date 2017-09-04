@@ -25,7 +25,7 @@ module.exports = class extends BaseGenerator {
 
   writing() {
     <% if (buildOpts.canChangeDir) { %>let destinationBasePath = this._config.<%= generatorName %>.customOutput;
-    let destinationBasedNamespace = path.relative(this.destinationPath(), destinationBasePath).replace(path.sep, '\\');
+    let destinationBasedNamespace = path.relative(this.destinationPath(), destinationBasePath).replace(new RegExp(path.sep, "g"), '\\');
     <% } %>//make files
     this.fs.copyTpl(
       this.templatePath('<%= ucGeneratorName %>.php'),

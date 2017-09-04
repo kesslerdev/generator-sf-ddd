@@ -48,21 +48,47 @@ module.exports = class extends BaseGenerator {
         //configure
         this.logger.warn('REPOSITORY not implemented')
       }
-      if(conf.things.includes('CQRS_COMMANDS')) {
+      if(conf.things.includes('CQRS_COMMANDS') && (conf.crudTypes.includes('UPDATE') || conf.crudTypes.includes('CREATE') || conf.crudTypes.includes('DELETE'))) {
         //configure
-        this.logger.warn('CQRS_COMMANDS not implemented')
+        this.composeWith(require.resolve('../cqrs-commands'), {
+          prompts : Object.assign({},conf,{
+            commandName: conf.resourceName,
+            customOutput: 'App/Command',
+            commandTypes: conf.crudTypes
+          }),
+          
+          noInteraction: true
+        })
       }
-      if(conf.things.includes('CQRS_FORMS')) {
+      if(conf.things.includes('CQRS_FORMS') && (conf.crudTypes.includes('UPDATE') || conf.crudTypes.includes('CREATE'))) {
         //configure
-        this.logger.warn('CQRS_FORMS not implemented')
+        this.composeWith(require.resolve('../cqrs-commands'), {
+          prompts : Object.assign({},conf,{
+            formName: conf.resourceName,
+            customOutput: 'Infra/Form/Type',
+            formTypes: conf.crudTypes
+          }),
+          
+          noInteraction: true
+        })
       }
       if(conf.things.includes('ENTITY')) {
         //configure
         this.logger.warn('ENTITY not implemented')
       }
-      if(conf.things.includes('SERVICE')) {
+      if(conf.things.includes('SERVICE') && (conf.crudTypes.includes('UPDATE') || conf.crudTypes.includes('CREATE') || conf.crudTypes.includes('DELETE'))) {
         //configure
-        this.logger.warn('SERVICE not implemented')
+        this.composeWith(require.resolve('../service'), {
+          prompts : Object.assign({},conf,{
+            serviceName: conf.resourceName,
+            serviceSuffix: 'Service',
+            serviceXMLFile: 'services.xml',
+            customOutput: 'App/Service',
+            serviceFullName: conf.resourceName + 'Service'
+          }),
+          
+          noInteraction: true
+        })
       }
 
     });

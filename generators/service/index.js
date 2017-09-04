@@ -13,12 +13,17 @@ module.exports = class extends BaseGenerator {
     super(args, opts);
 
     this.promptService = new _srvPrompts(this);
+    this.option('noInteraction')
   }
 
 
   prompting() {
     this._config = {};
 
+    if(this.options.noInteraction !== undefined) {
+      this._config.service = this.options.prompts
+      return
+    }
     return this.promptService.doPrompt(true).then((conf) => {
       this._config.service = conf;
       this._config.service.serviceFullName = this._config.service.serviceName + this._config.service.serviceSuffix;
@@ -27,7 +32,7 @@ module.exports = class extends BaseGenerator {
 
   writing() {
     let destinationBasePath = this._config.service.customOutput;
-    let destinationBasedNamespace = path.relative(this.destinationPath(), destinationBasePath).replace(path.sep, '\\');
+    let destinationBasedNamespace = path.relative(this.destinationPath(), destinationBasePath).replace(new RegExp(path.sep, "g"), '\\');
     //service file
     this.fs.copyTpl(
       this.templatePath('App/Service/Service.php'),

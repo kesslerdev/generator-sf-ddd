@@ -32,7 +32,7 @@ module.exports = async (env) => {
       message: 'What you want to generate ?',
       choices: [
         'None', 'Bundle', 'Resource', 'Service', 'Entity','Exception','Normalizer', 'Controller', 'Query',
-        'CQRS Command', 'CQRS Form Type'
+        'CQRS Commands', 'CQRS Forms'
       ],
       filter: function (val) {
         return s.slugify(val)

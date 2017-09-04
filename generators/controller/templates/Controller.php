@@ -2,14 +2,17 @@
 
 namespace <%= controller.contextNamespace %>\<%= baseNamespace %>;
 
-<% if (controller.crudTypes.includes(`CREATE`) || controller.crudTypes.includes(`UPDATE`)) { %>use FOS\RestBundle\View\View;
-<% } %>use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Xeonys\RestExtra\UI\Controller\AbstractRestController;
-<% if (controller.crudTypes.includes(`READ_SINGLE`) || controller.crudTypes.includes(`UPDATE`) || controller.crudTypes.includes(`DELETE`)) { %>use <%= controller.contextNamespace %>\Domain\Exception\<%= str.classN() %>NotFoundException;
+<% if (controller.crudTypes.includes(`DELETE`)) { %>use <%= controller.contextNamespace %>\App\Command\<%= str.classN() %>DeleteCommand;
+<% } %><% if (controller.crudTypes.includes(`UPDATE`)) { %>use <%= controller.contextNamespace %>\App\Command\<%= str.classN() %>UpdateCommand;
 <% } %><% if (controller.crudTypes.includes(`READ_LIST`)) { %>use <%= controller.contextNamespace %>\App\Query;
+<% } %><% if (controller.crudTypes.includes(`CREATE`)) { %>use <%= controller.contextNamespace %>\Infra\Form\Type\<%= str.classN() %>CreateType;
+<% } %><% if (controller.crudTypes.includes(`UPDATE`)) { %>use <%= controller.contextNamespace %>\Infra\Form\Type\<%= str.classN() %>UpdateType;
+<% } %><% if (controller.crudTypes.includes(`READ_SINGLE`) || controller.crudTypes.includes(`UPDATE`) || controller.crudTypes.includes(`DELETE`)) { %>use <%= controller.contextNamespace %>\Domain\Exception\<%= str.classN() %>NotFoundException;
 <% } %>
 /**
  * Class <%= str.classN() %>Controller
@@ -20,9 +23,9 @@ use Xeonys\RestExtra\UI\Controller\AbstractRestController;
 class <%= str.classN() %>Controller extends AbstractRestController
 {<% if (controller.crudTypes.length) { %><% if (controller.crudTypes.includes(`READ_LIST`)) { %>
     /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param Request $request
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      *
      * @Route("/{_version}/<%= str.pluralUrlN() %>.{_format}", name="<%= str.pluralUrlN() %>_list", requirements={"_version": "v1", "_format": "json"})
      * @Method("GET")
@@ -35,27 +38,27 @@ class <%= str.classN() %>Controller extends AbstractRestController
         return $this->createJSONSerializedResponse($pager);
     }<% } %><% if (controller.crudTypes.includes(`READ_SINGLE`)) { %>
     /**
-     * @param integer $id
+     * @param string $id
      *
      * @throws <%= str.classN() %>NotFoundException
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      *
-     * @Route("/{_version}/<%= str.pluralUrlN() %>/{id}.{_format}", name="<%= str.pluralUrlN() %>_show", requirements={"_version": "v1", "id": "\d+", "_format": "json"})
+     * @Route("/{_version}/<%= str.pluralUrlN() %>/{id}.{_format}", name="<%= str.pluralUrlN() %>_show", requirements={"_version": "v1", "id": "\w{8}-\w{4}-\w{4}-\w{4}-\w{12}", "_format": "json"})
      * @Method("GET")
      */
     public function show<%= str.classN() %>Action($id)
     {
         <%= str.varN() %> = $this->get('<%= str.repoN() %>')->findRequired($id);
         // adds Security ;)
-        
+
         return $this->createJSONSerializedResponse(
             <%= str.varN() %>
         );
     }<% } %><% if (controller.crudTypes.includes(`CREATE`)) { %>
     /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param Request $request
      *
-     * @return \Symfony\Component\HttpFoundation\Response|View
+     * @return Response
      *
      * @Route("/{_version}/<%= str.pluralUrlN() %>.{_format}", name="<%= str.pluralUrlN() %>_create", requirements={"_version": "v1", "_format": "json"})
      * @Method("POST")
@@ -66,7 +69,7 @@ class <%= str.classN() %>Controller extends AbstractRestController
         $form->handleRequest($request);
 
         if (false === $form->isValid()) {
-            return View::create($form, 400);
+            return $this->createJSONSerializedResponse($form, [], 400);
         }
 
         $bus = $this->get('rezzza_command_bus.command_bus.synchronous');
@@ -75,13 +78,13 @@ class <%= str.classN() %>Controller extends AbstractRestController
         return $this->createJSONSerializedResponse(<%= str.varN() %>, [], 201);
     }<% } %><% if (controller.crudTypes.includes(`UPDATE`)) { %>
     /**
-     * @param integer                                   $id
-     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param string $id
+     * @param Request $request
      *
      * @throws <%= str.classN() %>NotFoundException
-     * @return \Symfony\Component\HttpFoundation\Response|View
+     * @return Response
      *
-     * @Route("/{_version}/<%= str.pluralUrlN() %>/{id}.{_format}", name="<%= str.pluralUrlN() %>_patch_update", requirements={"_version": "v1", "id": "\d+", "_format": "json"})
+     * @Route("/{_version}/<%= str.pluralUrlN() %>/{id}.{_format}", name="<%= str.pluralUrlN() %>_patch_update", requirements={"_version": "v1", "id": "\w{8}-\w{4}-\w{4}-\w{4}-\w{12}", "_format": "json"})
      * @Method("PATCH")
      */
     public function patch<%= str.classN() %>Action($id, Request $request)
@@ -93,7 +96,7 @@ class <%= str.classN() %>Controller extends AbstractRestController
         $form->handleRequest($request);
 
         if (false === $form->isValid()) {
-            return View::create($form, 400);
+            return $this->createJSONSerializedResponse($form, [], 400);
         }
 
         $bus = $this->get('rezzza_command_bus.command_bus.synchronous');
@@ -102,12 +105,12 @@ class <%= str.classN() %>Controller extends AbstractRestController
         return $this->createJSONSerializedResponse(<%= str.varN() %>);
     }<% } %><% if (controller.crudTypes.includes(`DELETE`)) { %>
     /**
-     * @param integer $id
+     * @param string $id
      *
      * @throws <%= str.classN() %>NotFoundException
-     * @return View
+     * @return Response
      *
-     * @Route("/{_version}/<%= str.pluralUrlN() %>/{id}.{_format}", name="<%= str.pluralUrlN() %>_delete", requirements={"_version": "v1", "id": "\d+", "_format": "json"})
+     * @Route("/{_version}/<%= str.pluralUrlN() %>/{id}.{_format}", name="<%= str.pluralUrlN() %>_delete", requirements={"_version": "v1", "id": "\w{8}-\w{4}-\w{4}-\w{4}-\w{12}", "_format": "json"})
      * @Method("DELETE")
      */
     public function remove<%= str.classN() %>Action($id)
@@ -118,6 +121,6 @@ class <%= str.classN() %>Controller extends AbstractRestController
         $bus = $this->get('rezzza_command_bus.command_bus.synchronous');
         $bus->handle(new <%= str.classN() %>DeleteCommand($id));
 
-        return View::create();
+        return new Response('', 204);
     }<% } %><% } %>
 }

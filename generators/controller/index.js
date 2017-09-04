@@ -35,7 +35,7 @@ module.exports = class extends BaseGenerator {
     const stringMan = new strMan(this._config.controller.controllerName, this._config.controller)
 
     let destinationBasePath = this._config.controller.customOutput;
-    this._config.destinationBasedNamespace = path.relative(this.destinationPath(), destinationBasePath).replace(path.sep, '\\');
+    this._config.destinationBasedNamespace = path.relative(this.destinationPath(), destinationBasePath).replace(new RegExp(path.sep, "g"), '\\');
     //make files
     this.fs.copyTpl(
       this.templatePath('Controller.php'),
