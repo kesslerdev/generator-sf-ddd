@@ -8,47 +8,48 @@ use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Xeonys\RestExtra\UI\Controller\AbstractRestController;
-<% if (controller.crudTypes.includes(`READ_SINGLE`) || controller.crudTypes.includes(`UPDATE`) || controller.crudTypes.includes(`DELETE`)) { %>use <%= controller.contextNamespace %>\Domain\Exception\<%= controller.controllerName %>NotFoundException;
+<% if (controller.crudTypes.includes(`READ_SINGLE`) || controller.crudTypes.includes(`UPDATE`) || controller.crudTypes.includes(`DELETE`)) { %>use <%= controller.contextNamespace %>\Domain\Exception\<%= str.classN() %>NotFoundException;
+<% } %><% if (controller.crudTypes.includes(`READ_LIST`)) { %>use <%= controller.contextNamespace %>\App\Query;
 <% } %>
 /**
- * Class <%= controller.controllerName %>Controller
+ * Class <%= str.classN() %>Controller
  *
  * @package <%= controller.contextNamespace %>\<%= baseNamespace %>
  * @author  <%= root.authorName %> <<%= root.authorEmail %>>
  */
-class <%= controller.controllerName %>Controller extends AbstractRestController
+class <%= str.classN() %>Controller extends AbstractRestController
 {<% if (controller.crudTypes.length) { %><% if (controller.crudTypes.includes(`READ_LIST`)) { %>
     /**
      * @param \Symfony\Component\HttpFoundation\Request $request
      *
      * @return \Symfony\Component\HttpFoundation\Response
      *
-     * @Route("/{_version}/<%= str.underscored(pluralize(controller.controllerName)) %>.{_format}", name="<%= str.underscored(pluralize(controller.controllerName)) %>_list", requirements={"_version": "v1", "_format": "json"})
+     * @Route("/{_version}/<%= str.pluralUrlN() %>.{_format}", name="<%= str.pluralUrlN() %>_list", requirements={"_version": "v1", "_format": "json"})
      * @Method("GET")
      */
-    public function list<%= pluralize(controller.controllerName) %>Action(Request $request)
+    public function list<%= str.pluralClassN() %>Action(Request $request)
     {
-        $query = Query\<%= controller.controllerName %>ListQuery::createFromRequest($request);
-        $pager = $this->get('<%= repository %>')->paginateListQuery($query);
+        $query = Query\<%= str.classN() %>ListQuery::createFromRequest($request);
+        $pager = $this->get('<%= str.repoN() %>')->paginateListQuery($query);
 
         return $this->createJSONSerializedResponse($pager);
     }<% } %><% if (controller.crudTypes.includes(`READ_SINGLE`)) { %>
     /**
      * @param integer $id
      *
-     * @throws <%= controller.controllerName %>NotFoundException
+     * @throws <%= str.classN() %>NotFoundException
      * @return \Symfony\Component\HttpFoundation\Response
      *
-     * @Route("/{_version}/<%= str.underscored(pluralize(controller.controllerName)) %>/{id}.{_format}", name="<%= str.underscored(pluralize(controller.controllerName)) %>_show", requirements={"_version": "v1", "id": "\d+", "_format": "json"})
+     * @Route("/{_version}/<%= str.pluralUrlN() %>/{id}.{_format}", name="<%= str.pluralUrlN() %>_show", requirements={"_version": "v1", "id": "\d+", "_format": "json"})
      * @Method("GET")
      */
-    public function show<%= controller.controllerName %>Action($id)
+    public function show<%= str.classN() %>Action($id)
     {
-        $<%= str.camelize(controller.controllerName, true) %> = $this->get('<%= repository %>')->findRequired($id);
+        <%= str.varN() %> = $this->get('<%= str.repoN() %>')->findRequired($id);
         // adds Security ;)
         
         return $this->createJSONSerializedResponse(
-            $<%= str.camelize(controller.controllerName, true) %>
+            <%= str.varN() %>
         );
     }<% } %><% if (controller.crudTypes.includes(`CREATE`)) { %>
     /**
@@ -56,12 +57,12 @@ class <%= controller.controllerName %>Controller extends AbstractRestController
      *
      * @return \Symfony\Component\HttpFoundation\Response|View
      *
-     * @Route("/{_version}/<%= str.underscored(pluralize(controller.controllerName)) %>.{_format}", name="<%= str.underscored(pluralize(controller.controllerName)) %>_create", requirements={"_version": "v1", "_format": "json"})
+     * @Route("/{_version}/<%= str.pluralUrlN() %>.{_format}", name="<%= str.pluralUrlN() %>_create", requirements={"_version": "v1", "_format": "json"})
      * @Method("POST")
      */
-    public function create<%= controller.controllerName %>Action(Request $request)
+    public function create<%= str.classN() %>Action(Request $request)
     {
-        $form = $this->createForm(<%= controller.controllerName %>CreateType::class);
+        $form = $this->createForm(<%= str.classN() %>CreateType::class);
         $form->handleRequest($request);
 
         if (false === $form->isValid()) {
@@ -69,26 +70,26 @@ class <%= controller.controllerName %>Controller extends AbstractRestController
         }
 
         $bus = $this->get('rezzza_command_bus.command_bus.synchronous');
-        $<%= str.camelize(controller.controllerName, true) %> = $bus->handle($form->getData());
+        <%= str.varN() %> = $bus->handle($form->getData());
 
-        return $this->createJSONSerializedResponse($<%= str.camelize(controller.controllerName, true) %>, [], 201);
+        return $this->createJSONSerializedResponse(<%= str.varN() %>, [], 201);
     }<% } %><% if (controller.crudTypes.includes(`UPDATE`)) { %>
     /**
      * @param integer                                   $id
      * @param \Symfony\Component\HttpFoundation\Request $request
      *
-     * @throws <%= controller.controllerName %>NotFoundException
+     * @throws <%= str.classN() %>NotFoundException
      * @return \Symfony\Component\HttpFoundation\Response|View
      *
-     * @Route("/{_version}/<%= str.underscored(pluralize(controller.controllerName)) %>/{id}.{_format}", name="<%= str.underscored(pluralize(controller.controllerName)) %>_patch_update", requirements={"_version": "v1", "id": "\d+", "_format": "json"})
+     * @Route("/{_version}/<%= str.pluralUrlN() %>/{id}.{_format}", name="<%= str.pluralUrlN() %>_patch_update", requirements={"_version": "v1", "id": "\d+", "_format": "json"})
      * @Method("PATCH")
      */
-    public function patch<%= controller.controllerName %>Action($id, Request $request)
+    public function patch<%= str.classN() %>Action($id, Request $request)
     {
-        $<%= str.camelize(controller.controllerName, true) %> = $this->get('<%= repository %>')->findRequired($id);
+        <%= str.varN() %> = $this->get('<%= str.repoN() %>')->findRequired($id);
         // adds Security ;)
 
-        $form = $this->createForm(<%= controller.controllerName %>UpdateType::class, <%= controller.controllerName %>UpdateCommand::createFrom<%= controller.controllerName %>($<%= str.camelize(controller.controllerName, true) %>));
+        $form = $this->createForm(<%= str.classN() %>UpdateType::class, <%= str.classN() %>UpdateCommand::createFrom<%= str.classN() %>(<%= str.varN() %>));
         $form->handleRequest($request);
 
         if (false === $form->isValid()) {
@@ -96,26 +97,26 @@ class <%= controller.controllerName %>Controller extends AbstractRestController
         }
 
         $bus = $this->get('rezzza_command_bus.command_bus.synchronous');
-        $<%= str.camelize(controller.controllerName, true) %> = $bus->handle($form->getData());
+        <%= str.varN() %> = $bus->handle($form->getData());
 
-        return $this->createJSONSerializedResponse($<%= str.camelize(controller.controllerName, true) %>);
+        return $this->createJSONSerializedResponse(<%= str.varN() %>);
     }<% } %><% if (controller.crudTypes.includes(`DELETE`)) { %>
     /**
      * @param integer $id
      *
-     * @throws <%= controller.controllerName %>NotFoundException
+     * @throws <%= str.classN() %>NotFoundException
      * @return View
      *
-     * @Route("/{_version}/<%= str.underscored(pluralize(controller.controllerName)) %>/{id}.{_format}", name="<%= str.underscored(pluralize(controller.controllerName)) %>_delete", requirements={"_version": "v1", "id": "\d+", "_format": "json"})
+     * @Route("/{_version}/<%= str.pluralUrlN() %>/{id}.{_format}", name="<%= str.pluralUrlN() %>_delete", requirements={"_version": "v1", "id": "\d+", "_format": "json"})
      * @Method("DELETE")
      */
-    public function remove<%= controller.controllerName %>Action($id)
+    public function remove<%= str.classN() %>Action($id)
     {
-        $<%= str.camelize(controller.controllerName, true) %> = $this->get('<%= repository %>')->findRequired($id);
+        <%= str.varN() %> = $this->get('<%= str.repoN() %>')->findRequired($id);
         // adds Security ;)
 
         $bus = $this->get('rezzza_command_bus.command_bus.synchronous');
-        $bus->handle(new <%= controller.controllerName %>DeleteCommand($id));
+        $bus->handle(new <%= str.classN() %>DeleteCommand($id));
 
         return View::create();
     }<% } %><% } %>

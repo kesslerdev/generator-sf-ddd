@@ -31,7 +31,7 @@ Yeoman Generators for ddd sf app with CQRS/EventSourcing
 
 #### Controller Generator
 
-- [ ] implementer basiquement les actions CRUD dans le générateur de controller
+- [x] implementer basiquement les actions CRUD dans le générateur de controller
 
 #### Entity Generator
 

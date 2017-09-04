@@ -30,14 +30,4 @@ module.exports = class Prompts extends Prompting {
         _prompts.getCRUD()
         ]);
     }
-/*
-    getGeneratorOptions() {
-        return [
-            {
-                key: 'optKey',
-                name: 'option Name'
-            }
-        ];
-    }
-*/
 }

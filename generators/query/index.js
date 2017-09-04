@@ -9,15 +9,21 @@ module.exports = class extends BaseGenerator {
     super(args, opts);
 
     this._prompt = new Prompts(this);
+    this.option('noInteraction')
   }
 
 
   prompting() {
     this._config = {};
 
+    if(this.options.noInteraction !== undefined) {
+      this._config.query = this.options.prompts
+      return
+    }
     return this._prompt.doPrompt(true,true).then((conf) => {
       this._config.query = conf;
       //another params ...
+      console.log(conf)
     });
   }
 

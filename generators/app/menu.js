@@ -31,7 +31,7 @@ module.exports = async (env) => {
       name: 'generator',
       message: 'What you want to generate ?',
       choices: [
-        'None', 'Bundle', 'Service', 'Entity','Exception','Normalizer', 'Controller', 'Query',
+        'None', 'Bundle', 'Resource', 'Service', 'Entity','Exception','Normalizer', 'Controller', 'Query',
         'CQRS Command', 'CQRS Form Type'
       ],
       filter: function (val) {

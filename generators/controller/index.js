@@ -3,7 +3,7 @@ var path = require('path');
 var s = require('underscore.string');
 var pl = require('pluralize');
 var BaseGenerator = require('../../lib/generator');
-var containerTags = require('../../lib/containerTags');
+var strMan = require('../../lib/string');
 
 var Prompts = require('./prompts');
 
@@ -12,12 +12,18 @@ module.exports = class extends BaseGenerator {
     super(args, opts);
 
     this._prompt = new Prompts(this);
+    //this.argument('controllerName')
+    this.option('noInteraction')
+    //not an option !
+    //this.option('prompts')
   }
-
 
   prompting() {
     this._config = {};
-
+    if(this.options.noInteraction !== undefined) {
+      this._config.controller = this.options.prompts
+      return
+    }
     return this._prompt.doPrompt(true).then((conf) => {
       this._config.controller = conf;
       //another params ...
@@ -25,8 +31,8 @@ module.exports = class extends BaseGenerator {
   }
 
   writing() {
-    console.log(this._config.controller);
-    let tags = new containerTags(this._config.controller.contextNamespace);
+
+    const stringMan = new strMan(this._config.controller.controllerName, this._config.controller)
 
     let destinationBasePath = this._config.controller.customOutput;
     this._config.destinationBasedNamespace = path.relative(this.destinationPath(), destinationBasePath).replace(path.sep, '\\');
@@ -38,9 +44,7 @@ module.exports = class extends BaseGenerator {
         controller: this._config.controller,
         root: this._config.controller.root,
         baseNamespace: this._config.destinationBasedNamespace,
-        repository: tags.serviceTag(this._config.controller.controllerName,'repository'),
-        pluralize: pl,
-        str: s
+        str: stringMan
       }
     );
   }

@@ -2,9 +2,9 @@
 
 namespace <%= query.contextNamespace %>\App\Query;
 
-use Symfony\Component\HttpFoundation\Request;<% if (query.generatorOptions.hasQuery) { %> 
-use Xeonys\CRM\Kernel\App\Query\QueryableQueryInterface;<% } %><% if (query.generatorOptions.hasPagination) { %>
-use Xeonys\CRM\Kernel\Domain\Exception\InvalidQueryParameterException;
+use Symfony\Component\HttpFoundation\Request;<% if (query.generatorOptions.hasQuery) { %>
+use <%= query.root.baseNamespace %>\Kernel\App\Query\QueryableQueryInterface;<% } %><% if (query.generatorOptions.hasPagination) { %>
+use <%= query.root.baseNamespace %>\Kernel\Domain\Exception\InvalidQueryParameterException;
 <% } %>
 /**
  * Class <%= query.queryName %><%= query.querySuffix %>Query
