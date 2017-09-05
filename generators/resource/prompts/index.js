@@ -13,13 +13,13 @@ module.exports = class Prompts extends Prompting {
             filter: function (val) {
                 return s.classify(val);
             }
-        }, 
+        },
         _prompts.getCRUD(),
         {
             type: 'checkbox',
             message: 'Select Things',
             name: 'things',
-            default: ['CONTROLLER', 'QUERY', 'REPOSITORY', 'CQRS_COMMANDS', 'CQRS_FORMS', 'ENTITY', 'SERVICE'],
+            default: ['CONTROLLER', 'QUERY', 'REPOSITORY', 'CQRS_COMMANDS', 'CQRS_FORMS', 'ENTITY', 'SERVICE', 'EXCEPTION'],
             choices: [
                 {
                     name: 'CONTROLLER'
@@ -41,6 +41,9 @@ module.exports = class Prompts extends Prompting {
                 },
                 {
                     name: 'SERVICE'
+                },
+                {
+                    name: 'EXCEPTION'
                 }
             ],
             validate: function (answer) {
@@ -50,6 +53,14 @@ module.exports = class Prompts extends Prompting {
 
                 return true;
             }
+        },{
+            when: function (answers) {
+                return (answers.things.includes('QUERY') || answers.things.includes('REPOSITORY')) && answers.crudTypes.includes('READ_LIST');
+            },
+            type: 'confirm',
+            name: 'queryable',
+            default: true,
+            message: 'this resource is Queryable ? (search)'
         }
         ]);
     }

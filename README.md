@@ -47,63 +47,12 @@ Yeoman Generators for ddd sf app with CQRS/EventSourcing
 
 - [ ] implementer la generation des commandes CQRS
 - [ ] support de commands "vides" (simple classe dans le bon dossier)
-- [ ] support des commandes de "delete" comme la vide mais avec un constructeur pour l'id (avec un accessor)
-- [ ] support des commandes de "update" voir la command !
+- [x] support des commandes de "delete" comme la vide mais avec un constructeur pour l'id (avec un accessor)
+- [x] support des commandes de "update" voir la command !
 
-```php
-<?php
-
-namespace IED\Marketplace\Module\App\Command;
-
-use Rezzza\CommandBus\Domain\CommandInterface;
-use Xeonys\EventSourcing\Domain\EventSourcingIdAwareInterface;
-use Xeonys\EventSourcing\Domain\EventSourcingIdAwareTrait;
-use IED\Marketplace\Module\Domain\Module;
-
-/**
- * Class ModuleUpdateCommand
- *
- * @package IED\Marketplace\Module\App\Command
- * @author  Jean-François MONNIER <jf.monnier@xeonys.com>
- */
-class ModuleUpdateCommand implements EventSourcingIdAwareInterface, CommandInterface
-{
-    use EventSourcingIdAwareTrait;
-
-    private $moduleId;
-
-
-    protected function __construct(
-        $moduleId
-    ) {
-        $this->moduleId = $moduleId;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getModuleId()
-    {
-        return $this->moduleId;
-    }
-
-    /**
-     * @param Module $module
-     *
-     * @return static
-     */
-    public static function createFromModule(Module $module)
-    {
-        return new static(
-            $module->getId()
-        );
-    }
-}
-
-```
 #### Form type generator (CQRS => lié à la commande)
 
 - [ ] implementer la generation des formtypes
 - [ ] support de form "vides" (simple classe dans le bon dossier)
-- [ ] support des form de "update" en patch etc
-- [ ] support des form de "create" post etc
+- [x] support des form de "update" en patch etc
+- [x] support des form de "create" post etc

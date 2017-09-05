@@ -5,7 +5,7 @@ namespace <%= normalizer.contextNamespace %>\UI\RestDTO\Normalizer;
 <% if (buildOpts.normalizerAware) { %>use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 <% } %>use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
-<% if (buildOpts.normalizerAware) { %>use Xeonys\CRM\Kernel\UI\RestDTO\Normalizer\ExpandObjectTrait;
+<% if (buildOpts.normalizerAware) { %>use <%= query.root.baseNamespace %>\Kernel\UI\RestDTO\Normalizer\ExpandObjectTrait;
 <% } %>use Xeonys\RestExtra\UI\RestDTO\Normalizer\ExpandTrait;
 use <%= normalizer.contextNamespace %>\Domain\<%= normalizer.normalizerName %>;
 
@@ -37,7 +37,7 @@ class <%= normalizer.normalizerName %>Normalizer implements NormalizerInterface<
         /** @var <%= normalizer.normalizerName %> $object */
 
         $payload = [
-            'id'  => (int) $object->getId(),
+            'id'  => $object->getId(),
             'xxx' => $object->getXxx(),<% if (buildOpts.normalizerAware) { %>
             'date' => $this->normalizeDate($object->getCreatedAt(), $format, $context),<% } %>
         ];

@@ -10,14 +10,20 @@ module.exports = class extends BaseGenerator {
     super(args, opts);
 
     this.promptService = new _prompts(this);
+
+    this.option('noInteraction')
   }
   prompting() {
 
     this._config = {};
     let that = this;
-
+    if(this.options.noInteraction !== undefined) {
+      this._config.exception = this.options.prompts
+      return
+    }
     return this.promptService.doPrompt(true, true).then((answers) => {
       this._config.exception = answers;
+      console.log(this._config.exception)
     });
 
   }

@@ -5,6 +5,7 @@ namespace <%= command.contextNamespace %>\<%= baseNamespace %>;
 use Rezzza\CommandBus\Domain\CommandInterface;
 use Xeonys\EventSourcing\Domain\EventSourcingIdAwareInterface;
 use Xeonys\EventSourcing\Domain\EventSourcingIdAwareTrait;
+use <%= command.contextNamespace %>\Domain\<%= str.classN() %>;
 
 /**
  * Class <%= str.classN() %>UpdateCommand
@@ -56,7 +57,7 @@ class <%= str.classN() %>UpdateCommand implements EventSourcingIdAwareInterface,
     }
 
     /**
-     * @param \<%= command.contextNamespace %>\Domain\<%= str.classN() %> <%= str.varN() %>
+     * @param <%= str.classN() %> <%= str.varN() %>
      *
      * @return static
      */

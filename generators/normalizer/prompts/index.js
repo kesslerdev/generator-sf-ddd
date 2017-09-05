@@ -9,7 +9,7 @@ module.exports = class Prompts extends Prompting {
         return _prompts.context([{
             type: 'input',
             name: 'normalizerName',
-            message: 'Name of normalizer',
+            message: 'Name of normalizer (ex: {name}Normalizer)',
             filter: function (val) {
                 return s.classify(val);
             }
@@ -20,7 +20,7 @@ module.exports = class Prompts extends Prompting {
         return [
             {
                 key: 'normalizerAware',
-                name: 'Can use Normalizer inside this (sub normalizers)'
+                name: 'Can use Normalizer inside this (sub normalizers) (needed for datetime normalization)'
             }
         ];
     }

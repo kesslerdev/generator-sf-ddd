@@ -18,7 +18,7 @@ module.exports = class ServicePrompts extends Prompting {
             type: 'list',
             choices: [
                 "BadRequestHttpException : 400",
-                "ResourceNotFoundException : 404",
+                "NotFoundHttpException : 404",
                 "Exception : 500"
             ],
             filter: function (val) {
