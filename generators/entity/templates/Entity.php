@@ -10,7 +10,7 @@ namespace <%= entity.contextNamespace %>\<%= baseNamespace %>;
  */
 class <%= str.classN() %>
 {
-   /**
+    /**
      * @var string
      */
     private $id;
