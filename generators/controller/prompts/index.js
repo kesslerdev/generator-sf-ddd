@@ -27,7 +27,7 @@ module.exports = class Prompts extends Prompting {
             message: 'directory to save controller',
             basePath: './'
         }, 
-        _prompts.getCRUD()
+        _prompts.getCRUD(true)
         ]);
     }
 }

@@ -62,7 +62,15 @@ module.exports = class extends BaseGenerator {
 
       if(conf.things.includes('REPOSITORY')) {
         //configure
-        this.logger.warn('REPOSITORY not implemented')
+        this.composeWith(require.resolve('../repository'), {
+          prompts : Object.assign({},conf,{
+            repositoryName: conf.resourceName,
+            customOutput: 'Infra/Repository/DoctrineORM',
+            customInterfaceOutput: 'Domain/Repository'
+          }),
+          
+          noInteraction: true
+        })
       }
 
       if(conf.things.includes('CQRS_COMMANDS') && (conf.crudTypes.includes('UPDATE') || conf.crudTypes.includes('CREATE') || conf.crudTypes.includes('DELETE'))) {
@@ -91,7 +99,15 @@ module.exports = class extends BaseGenerator {
       }
       if(conf.things.includes('ENTITY')) {
         //configure
-        this.logger.warn('ENTITY not implemented')
+        this.composeWith(require.resolve('../entity'), {
+          prompts : Object.assign({},conf,{
+            entityName: conf.resourceName,
+            customOutput: 'Domain',
+            customMappingOutput: 'Infra/Resources/DoctrineORM/config'
+          }),
+          
+          noInteraction: true
+        })
       }
       if(conf.things.includes('SERVICE') && (conf.crudTypes.includes('UPDATE') || conf.crudTypes.includes('CREATE') || conf.crudTypes.includes('DELETE'))) {
         //configure
